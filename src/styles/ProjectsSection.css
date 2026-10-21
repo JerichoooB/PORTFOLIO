@@ -1,0 +1,8 @@
+
+/* ProjectsSection Specific Styles */
+.projects-container {
+  position: relative;
+  z-index: 25;
+  padding-top: 72px;
+  padding-bottom: 80px;
+}

@@ -1,0 +1,41 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #07090E; border-left: 1px solid rgba(0, 240, 255, 0.1); }
+::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #00F0FF, #B200FF); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(to bottom, #00F0FF, #D155FF); }
+
+/* CRT Scanline Screen Overlay */
+.crt-overlay {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Button Shimmer Sweep Effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  transition: none;
+}
+.shimmer-btn:hover::after {
+  animation: shimmer 0.8s infinite;
+}

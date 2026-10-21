@@ -1,0 +1,8 @@
+
+/* ExperienceSection Specific Styles */
+.experience-container {
+  position: relative;
+  z-index: 25;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
