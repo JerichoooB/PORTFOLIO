@@ -1,29 +1,23 @@
 import React from "react";
-import { Code } from "lucide-react";
-import { FaFacebook, FaGithub } from "react-icons/fa";
+import { ShieldCheck } from "lucide-react";
 
 export const Footer = () => {
   return (
-    <footer className="relative z-20 border-t border-white/10 bg-[#07090E]/90 py-10 px-6 backdrop-blur-xl mt-20">
-      <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="relative z-10 border-t border-white/10 bg-slate-950/80 py-8 backdrop-blur-xl">
+      <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
-            <Code size={18} />
-          </div>
-          <span className="font-['Space_Grotesk'] text-xl font-black tracking-widest text-white">RIRI<span className="text-cyan-500">.DEV</span></span>
+          <span className="font-['Space_Grotesk'] text-sm font-bold text-white tracking-widest">RIRI<span className="text-cyan-500">.DEV</span></span>
+          <span className="font-['Outfit'] text-xs text-slate-500">© 2026 All rights reserved.</span>
         </div>
 
-        <p className="font-['Outfit'] text-xs text-slate-400 text-center">
-          © {new Date().getFullYear()} RIRI.DEV. All security nodes secured & encrypted.
-        </p>
-
-        <div className="flex items-center gap-4">
-          <a href="https://www.facebook.com/jddelacruz.89" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors p-2 cursor-none" title="Facebook">
-            <FaFacebook size={18} />
-          </a>
-          <a href="https://github.com/JerichoooB" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors p-2 cursor-none" title="GitHub">
-            <FaGithub size={18} />
-          </a>
+        {/* Live Security / Node Status Widget */}
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-cyan-500/30 bg-cyan-950/20 font-['JetBrains_Mono'] text-xs text-cyan-400 shadow-[0_0_15px_rgba(0,240,255,0.1)]">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+          </span>
+          <ShieldCheck size={14} className="text-cyan-400 ml-1" />
+          <span>Node: Secured [AES-256] | Uptime: 99.9%</span>
         </div>
       </div>
     </footer>

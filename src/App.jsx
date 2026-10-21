@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Code, Shield, ArrowRight } from "lucide-react";
+import { Code, Shield, ArrowRight, Terminal as TerminalIcon, Cpu, Volume2, VolumeX } from "lucide-react";
 import { FaReact, FaNodeJs, FaPython, FaPhp, FaJava } from "react-icons/fa";
 import { SiTailwindcss, SiPostgresql, SiMysql } from "react-icons/si";
 
@@ -12,6 +12,9 @@ import { AboutSection } from "./components/AboutSection";
 import { ProjectsSection } from "./components/ProjectsSection";
 import { ContactSection } from "./components/ContactSection";
 import { Footer } from "./components/Footer";
+import { MatrixRain } from "./components/MatrixRain";
+import { TerminalModal } from "./components/TerminalModal";
+import { playClickSfx, playHoverSfx, setMuted, getMuted } from "./utils/soundEffects";
 
 import "./styles/App.css";
 
@@ -22,15 +25,36 @@ export default function App() {
   const [progress, setProgress] = useState(loading ? 0 : 100);
   const [terminalText, setTerminalText] = useState("Establishing secure connection...");
   
-  // Track active section for navbar underline
   const [activeSection, setActiveSection] = useState("home");
+  const [matrixActive, setMatrixActive] = useState(false);
+  const [terminalOpen, setTerminalOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   const homeRef = useRef(null);
   const aboutRef = useRef(null);
   const projectsRef = useRef(null);
   const contactRef = useRef(null);
 
-  // Custom smooth scroll animation using requestAnimationFrame
+  // Global key listener for '~' to open terminal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "`" || e.key === "~") {
+        e.preventDefault();
+        setTerminalOpen((prev) => !prev);
+        playClickSfx();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const toggleAudio = () => {
+    const nextMuted = !isMuted;
+    setIsMuted(nextMuted);
+    setMuted(nextMuted);
+    playClickSfx();
+  };
+
   const smoothScrollTo = (targetPosition, duration = 800) => {
     const startPosition = window.pageYOffset;
     const distance = targetPosition - startPosition;
@@ -57,6 +81,7 @@ export default function App() {
   };
 
   const scrollToSection = (ref, sectionName) => {
+    playClickSfx();
     if (sectionName === "home") {
       smoothScrollTo(0, 800);
     } else if (ref.current) {
@@ -68,7 +93,6 @@ export default function App() {
     setActiveSection(sectionName);
   };
 
-  // Scroll spy to switch navbar underline dynamically based on scroll position
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY + 300;
@@ -199,6 +223,9 @@ export default function App() {
       {/* CRT Scanline Screen Overlay */}
       <div className="fixed inset-0 z-50 pointer-events-none crt-overlay opacity-40" />
 
+      {/* Matrix Code Rain Effect */}
+      {matrixActive && <MatrixRain />}
+
       {/* Enhanced Multi-Layered Cyber Background */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]" />
@@ -223,6 +250,14 @@ export default function App() {
       <FloatingParticles />
       <CustomCursor />
 
+      {/* Terminal Modal */}
+      <TerminalModal 
+        isOpen={terminalOpen} 
+        onClose={() => setTerminalOpen(false)} 
+        scrollToSection={scrollToSection}
+        refs={{ aboutRef, projectsRef, contactRef }}
+      />
+
       <AnimatePresence mode="wait">
         {loading ? (
           <LoadingScreen key="preloader" progress={progress} terminalText={terminalText} />
@@ -239,14 +274,15 @@ export default function App() {
               <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-4 md:py-5">
                 <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400">
-                    <Code size={20} />
+                    <img src="/logo.png" alt="Logo" className="w-6 h-6 object-contain" />
                   </div>
                   <span className="font-['Space_Grotesk'] text-2xl font-black tracking-widest text-white">RIRI<span className="text-cyan-500">.DEV</span></span>
                 </motion.div>
                 
-                <div className="hidden items-center gap-10 font-['Outfit'] text-sm font-semibold tracking-wide md:flex">
+                <div className="hidden items-center gap-8 font-['Outfit'] text-sm font-semibold tracking-wide md:flex">
                   <button 
                     onClick={() => scrollToSection(homeRef, "home")}
+                    onMouseEnter={playHoverSfx}
                     className={`cursor-none transition-colors bg-transparent border-none p-0 font-semibold relative ${
                       activeSection === "home" 
                         ? "text-white after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-cyan-400 after:shadow-[0_0_10px_rgba(0,240,255,0.8)] after:content-['']" 
@@ -257,6 +293,7 @@ export default function App() {
                   </button>
                   <button 
                     onClick={() => scrollToSection(aboutRef, "about")}
+                    onMouseEnter={playHoverSfx}
                     className={`cursor-none transition-colors bg-transparent border-none p-0 font-semibold relative ${
                       activeSection === "about" 
                         ? "text-white after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-cyan-400 after:shadow-[0_0_10px_rgba(0,240,255,0.8)] after:content-['']" 
@@ -267,6 +304,7 @@ export default function App() {
                   </button>
                   <button 
                     onClick={() => scrollToSection(projectsRef, "projects")} 
+                    onMouseEnter={playHoverSfx}
                     className={`cursor-none transition-colors text-left bg-transparent border-none p-0 font-semibold relative ${
                       activeSection === "projects" 
                         ? "text-white after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-cyan-400 after:shadow-[0_0_10px_rgba(0,240,255,0.8)] after:content-['']" 
@@ -277,6 +315,7 @@ export default function App() {
                   </button>
                   <button 
                     onClick={() => scrollToSection(contactRef, "contact")}
+                    onMouseEnter={playHoverSfx}
                     className={`cursor-none transition-colors bg-transparent border-none p-0 font-semibold relative ${
                       activeSection === "contact" 
                         ? "text-white after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-full after:bg-cyan-400 after:shadow-[0_0_10px_rgba(0,240,255,0.8)] after:content-['']" 
@@ -287,13 +326,50 @@ export default function App() {
                   </button>
                 </div>
 
-                <motion.button 
-                  onClick={() => scrollToSection(contactRef, "contact")}
-                  whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="shimmer-btn relative overflow-hidden cursor-none rounded-full border border-cyan-400/50 bg-cyan-950/40 px-7 py-2.5 font-['JetBrains_Mono'] text-sm font-bold text-cyan-400 shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all hover:bg-cyan-400 hover:text-slate-950 hover:shadow-[0_0_30px_rgba(0,240,255,0.6)]"
-                >
-                  Hire Me
-                </motion.button>
+                <div className="flex items-center gap-3">
+                  {/* Matrix Rain Toggle Button */}
+                  <button 
+                    onClick={() => { playClickSfx(); setMatrixActive(!matrixActive); }}
+                    onMouseEnter={playHoverSfx}
+                    title="Toggle Matrix Rain"
+                    className={`cursor-none p-2.5 rounded-xl border transition-all ${
+                      matrixActive 
+                        ? "border-cyan-400 bg-cyan-400/20 text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.5)]" 
+                        : "border-white/10 bg-white/5 text-slate-400 hover:text-white"
+                    }`}
+                  >
+                    <Cpu size={18} />
+                  </button>
+
+                  {/* Terminal Modal Trigger Button */}
+                  <button 
+                    onClick={() => { playClickSfx(); setTerminalOpen(true); }}
+                    onMouseEnter={playHoverSfx}
+                    title="Open Terminal (~)"
+                    className="cursor-none p-2.5 rounded-xl border border-white/10 bg-white/5 text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-all"
+                  >
+                    <TerminalIcon size={18} />
+                  </button>
+
+                  {/* Audio Mute Toggle Button */}
+                  <button 
+                    onClick={toggleAudio}
+                    onMouseEnter={playHoverSfx}
+                    title={isMuted ? "Unmute SFX" : "Mute SFX"}
+                    className="cursor-none p-2.5 rounded-xl border border-white/10 bg-white/5 text-slate-400 hover:text-white transition-all"
+                  >
+                    {isMuted ? <VolumeX size={18} className="text-red-400" /> : <Volume2 size={18} className="text-cyan-400" />}
+                  </button>
+
+                  <motion.button 
+                    onClick={() => scrollToSection(contactRef, "contact")}
+                    onMouseEnter={playHoverSfx}
+                    whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    className="hidden sm:inline-flex shimmer-btn relative overflow-hidden cursor-none rounded-full border border-cyan-400/50 bg-cyan-950/40 px-6 py-2.5 font-['JetBrains_Mono'] text-xs font-bold text-cyan-400 shadow-[0_0_20px_rgba(0,240,255,0.15)] transition-all hover:bg-cyan-400 hover:text-slate-950 hover:shadow-[0_0_30px_rgba(0,240,255,0.6)]"
+                  >
+                    Hire Me
+                  </motion.button>
+                </div>
               </div>
             </motion.header>
 
@@ -334,11 +410,23 @@ export default function App() {
                     </motion.p>
                     
                     <motion.div variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }} className="flex flex-wrap items-center gap-4">
-                      <motion.button onClick={() => scrollToSection(projectsRef, "projects")} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="shimmer-btn relative overflow-hidden flex cursor-none items-center gap-2 rounded-xl bg-cyan-400 px-7 py-3.5 font-['Space_Grotesk'] text-base font-bold text-slate-950 shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all hover:shadow-[0_0_40px_rgba(0,240,255,0.7)]">
+                      <motion.button 
+                        onClick={() => scrollToSection(projectsRef, "projects")} 
+                        onMouseEnter={playHoverSfx}
+                        whileHover={{ scale: 1.05 }} 
+                        whileTap={{ scale: 0.95 }} 
+                        className="shimmer-btn relative overflow-hidden flex cursor-none items-center gap-2 rounded-xl bg-cyan-400 px-7 py-3.5 font-['Space_Grotesk'] text-base font-bold text-slate-950 shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all hover:shadow-[0_0_40px_rgba(0,240,255,0.7)]"
+                      >
                         Explore My Work <ArrowRight size={18} />
                       </motion.button>
-                      <motion.button whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }} whileTap={{ scale: 0.95 }} className="cursor-none rounded-xl border border-white/20 bg-white/5 px-7 py-3.5 font-['Space_Grotesk'] text-base font-bold text-white backdrop-blur-md transition-colors">
-                        View Resume
+                      <motion.button 
+                        onClick={() => { playClickSfx(); setTerminalOpen(true); }}
+                        onMouseEnter={playHoverSfx}
+                        whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }} 
+                        whileTap={{ scale: 0.95 }} 
+                        className="cursor-none rounded-xl border border-white/20 bg-white/5 px-7 py-3.5 font-['Space_Grotesk'] text-base font-bold text-white backdrop-blur-md transition-colors flex items-center gap-2"
+                      >
+                        <TerminalIcon size={16} className="text-cyan-400" /> Open CLI
                       </motion.button>
                     </motion.div>
 
@@ -347,6 +435,7 @@ export default function App() {
                       {skills.map((skill) => (
                         <motion.span 
                           key={skill.name} 
+                          onMouseEnter={playHoverSfx}
                           whileHover={{ y: -2, borderColor: "rgba(178,0,255,0.5)" }} 
                           className="flex cursor-none items-center gap-2.5 rounded-full border border-white/10 bg-white/5 px-4 py-2 font-['JetBrains_Mono'] text-xs font-medium text-slate-300 backdrop-blur-sm transition-colors"
                         >
