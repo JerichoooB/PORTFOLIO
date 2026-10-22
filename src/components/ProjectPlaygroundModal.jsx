@@ -4,7 +4,6 @@ import { X, RotateCcw, Check, Plus, Trash2 } from "lucide-react";
 import { playClickSfx } from "../utils/soundEffects";
 
 export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
-  if (!isOpen || !project) return null;
 
   // Memory Game State
   const [cards, setCards] = useState(() => {
@@ -23,6 +22,8 @@ export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
     { id: 2, text: "Deploy update to Vercel", completed: false },
   ]);
   const [newTodo, setNewTodo] = useState("");
+
+  if (!isOpen || !project) return null;
 
   const handleCardClick = (id) => {
     playClickSfx();
@@ -89,8 +90,8 @@ export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 bg-slate-900/80">
           <div>
-            <span className="font-['JetBrains_Mono'] text-xs text-cyan-400 font-bold uppercase tracking-widest">Interactive Playground</span>
-            <h3 className="font-['Space_Grotesk'] text-xl font-bold text-white">{project.title}</h3>
+            <span className="font-mono text-xs text-cyan-400 font-bold uppercase tracking-widest">Interactive Playground</span>
+            <h3 className="font-display text-xl font-bold text-white">{project.title}</h3>
           </div>
           <button
             onClick={() => { playClickSfx(); onClose(); }}
@@ -104,7 +105,7 @@ export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
         <div className="p-6 max-h-[65vh] overflow-y-auto">
           {project.title === "Memory Game" ? (
             <div className="flex flex-col items-center gap-4">
-              <div className="flex justify-between w-full font-['JetBrains_Mono'] text-xs text-slate-300">
+              <div className="flex justify-between w-full font-mono text-xs text-slate-300">
                 <span>Matches: {score} / 4</span>
                 <button onClick={resetMemoryGame} className="flex items-center gap-1 text-cyan-400 hover:underline cursor-none">
                   <RotateCcw size={14} /> Reset Game
@@ -128,7 +129,7 @@ export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
                 ))}
               </div>
               {score === 4 && (
-                <div className="font-['JetBrains_Mono'] text-xs text-cyan-400 font-bold mt-2 animate-bounce">
+                <div className="font-mono text-xs text-cyan-400 font-bold mt-2 animate-bounce">
                   [!] Transmission Complete: All Matches Found!
                 </div>
               )}
@@ -141,7 +142,7 @@ export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
                   value={newTodo}
                   onChange={(e) => setNewTodo(e.target.value)}
                   placeholder="Add a new task..."
-                  className="flex-grow rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-xs text-white font-['Outfit'] placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none"
+                  className="flex-grow rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-xs text-white font-sans placeholder:text-slate-600 focus:border-cyan-400 focus:outline-none"
                 />
                 <button type="submit" className="rounded-xl bg-cyan-400 px-4 py-2.5 text-slate-950 font-bold text-xs flex items-center gap-1 cursor-none shadow-[0_0_15px_rgba(0,240,255,0.3)]">
                   <Plus size={16} /> Add
@@ -154,7 +155,7 @@ export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
                       <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${todo.completed ? "border-cyan-400 bg-cyan-400/20 text-cyan-400" : "border-white/30"}`}>
                         {todo.completed && <Check size={12} />}
                       </div>
-                      <span className={`font-['Outfit'] text-xs ${todo.completed ? "line-through text-slate-500" : "text-white"}`}>{todo.text}</span>
+                      <span className={`font-sans text-xs ${todo.completed ? "line-through text-slate-500" : "text-white"}`}>{todo.text}</span>
                     </div>
                     <button onClick={() => deleteTodo(todo.id)} className="text-red-400 hover:text-red-300 cursor-none p-1">
                       <Trash2 size={14} />
@@ -165,8 +166,8 @@ export const ProjectPlaygroundModal = ({ isOpen, onClose, project }) => {
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="font-['Outfit'] text-slate-400 text-sm mb-4">Interactive playground simulation launching soon for this repository.</p>
-              <a href={project.github} target="_blank" rel="noopener noreferrer" className="inline-block font-['JetBrains_Mono'] text-xs text-cyan-400 border border-cyan-500/40 px-4 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20">
+              <p className="font-sans text-slate-400 text-sm mb-4">Interactive playground simulation launching soon for this repository.</p>
+              <a href={project.github} target="_blank" rel="noopener noreferrer" className="inline-block font-mono text-xs text-cyan-400 border border-cyan-500/40 px-4 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20">
                 View Source on GitHub
               </a>
             </div>

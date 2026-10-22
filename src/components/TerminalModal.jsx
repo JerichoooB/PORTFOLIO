@@ -57,7 +57,7 @@ export const TerminalModal = ({ isOpen, onClose, scrollToSection, refs }) => {
       case "projects":
         newHistory.push({
           type: "output",
-          text: "PROJECTS:\n1. Portfolio 1.0\n2. School Management System\n3. SQL Database Tool\n4. Digibag\n5. Todo List\n6. Memory Game",
+          text: "PROJECTS:\n1. Portfolio 1.0\n2. School Management System\n3. SQL Database Tool\n4. Digibag\n5. Clover Clothing Shop\n6. Memory Game",
         });
         break;
       case "contact":
@@ -108,7 +108,7 @@ export const TerminalModal = ({ isOpen, onClose, scrollToSection, refs }) => {
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 bg-slate-900/80">
           <div className="flex items-center gap-2">
             <TerminalIcon size={16} className="text-cyan-400" />
-            <span className="font-['JetBrains_Mono'] text-xs font-bold text-cyan-400 tracking-wider">
+            <span className="font-mono text-xs font-bold text-cyan-400 tracking-wider">
               riri@secure-node:~
             </span>
           </div>
@@ -121,7 +121,7 @@ export const TerminalModal = ({ isOpen, onClose, scrollToSection, refs }) => {
         </div>
 
         {/* Terminal Body */}
-        <div className="flex-grow p-4 overflow-y-auto font-['JetBrains_Mono'] text-xs text-slate-300 space-y-2">
+        <div className="flex-grow p-4 overflow-y-auto font-mono text-xs text-slate-300 space-y-2">
           {history.map((h, i) => (
             <div key={i} className={`whitespace-pre-wrap \${h.type === "input" ? "text-cyan-300 font-bold" : "text-slate-300"}`}>
               {h.text}
@@ -132,14 +132,14 @@ export const TerminalModal = ({ isOpen, onClose, scrollToSection, refs }) => {
 
         {/* Terminal Input Form */}
         <form onSubmit={handleCommand} className="border-t border-white/10 p-3 bg-slate-900/50 flex items-center gap-2">
-          <span className="font-['JetBrains_Mono'] text-xs text-cyan-400 font-bold">&gt;</span>
+          <span className="font-mono text-xs text-cyan-400 font-bold">&gt;</span>
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => { playTerminalSfx(); setInput(e.target.value); }}
             placeholder="Type a command (e.g. 'help')..."
-            className="flex-grow bg-transparent font-['JetBrains_Mono'] text-xs text-white focus:outline-none placeholder:text-slate-600"
+            className="flex-grow bg-transparent font-mono text-xs text-white focus:outline-none placeholder:text-slate-600"
           />
           <button type="submit" className="text-cyan-400 hover:text-white cursor-none p-1">
             <CornerDownLeft size={16} />

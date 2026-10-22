@@ -24,10 +24,10 @@ export const FlashlightCard = ({ title, desc, tags, image, github }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-40" />
         </div>
 
-        <h3 className="font-['Space_Grotesk'] text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+        <h3 className="font-display text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
           {title}
         </h3>
-        <p className="font-['Outfit'] text-sm text-slate-300 leading-relaxed mb-6">
+        <p className="font-sans text-sm text-slate-300 leading-relaxed mb-6">
           {desc}
         </p>
       </div>
@@ -38,7 +38,7 @@ export const FlashlightCard = ({ title, desc, tags, image, github }) => {
           {tags.map((tag, i) => (
             <span 
               key={i}
-              className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 font-['JetBrains_Mono'] text-[11px] text-cyan-300"
+              className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 font-mono text-[11px] text-cyan-300"
             >
               {tag}
             </span>
@@ -51,7 +51,7 @@ export const FlashlightCard = ({ title, desc, tags, image, github }) => {
             href={github} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-2 font-['Space_Grotesk'] text-xs font-bold text-white transition-all hover:bg-cyan-400 hover:text-slate-950 hover:border-cyan-400"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-4 py-2 font-display text-xs font-bold text-white transition-all hover:bg-cyan-400 hover:text-slate-950 hover:border-cyan-400"
           >
             <FaGithub size={16} /> View Repository <ExternalLink size={14} />
           </a>

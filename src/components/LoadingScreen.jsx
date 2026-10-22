@@ -1,53 +1,23 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Terminal } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import "../styles/LoadingScreen.css";
 
-export const LoadingScreen = ({ progress, terminalText }) => (
-  <motion.div
-    key="preloader"
-    initial={{ opacity: 1 }}
-    exit={{ opacity: 0, scale: 1.05, filter: "blur(15px)" }}
-    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-    className="fixed inset-0 z-[100] flex cursor-none flex-col items-center justify-center bg-slate-950"
-  >
-    <div className="relative flex h-72 w-72 items-center justify-center">
-      <motion.div
-        className="absolute h-full w-full rounded-full border border-cyan-500/20 border-b-purple-500 border-t-cyan-400 shadow-[0_0_40px_rgba(0,240,255,0.2)] mix-blend-screen"
-        animate={{ rotateZ: 360, rotateX: 180, scale: [1, 1.05, 1] }}
-        transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-        style={{ transformStyle: "preserve-3d" }}
-      />
-      <motion.div
-        className="absolute h-56 w-56 rounded-full border border-purple-500/20 border-l-cyan-400 border-r-purple-400 mix-blend-screen"
-        animate={{ rotateZ: -360, rotateY: 180, scale: [1, 1.1, 1] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        style={{ transformStyle: "preserve-3d" }}
-      />
-      <motion.div
-        className="absolute h-40 w-40 rounded-full border-2 border-dashed border-white/10 border-t-white/60"
-        animate={{ rotateZ: 360 }}
-        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-      />
-      <div className="absolute text-center">
-        <motion.span className="font-['Space_Grotesk'] text-6xl font-black neon-percentage">
-          {progress}%
-        </motion.span>
+export const LoadingScreen = ({ progress, onSkip }) => {
+  const reducedMotion = useReducedMotion();
+  const stage = progress < 35 ? "A little code." : progress < 75 ? "A little curiosity." : "A world of possibilities.";
+  return (
+    <motion.div key="preloader" initial={{ opacity: 1 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -18 }} transition={{ duration: reducedMotion ? 0.1 : 0.45 }} className="intro-loader">
+      <div className="intro-loader-grid" aria-hidden="true" />
+      <div className="intro-loader-top"><span>RIRI<span className="intro-mint">.DEV</span></span><span>PERSONAL PORTFOLIO / 2026</span></div>
+      <div className="intro-loader-content">
+        <div className="intro-monogram" aria-hidden="true"><span>r.</span><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" className="intro-ring-track" /><circle cx="50" cy="50" r="46" className="intro-ring-progress" pathLength="100" strokeDasharray="100" strokeDashoffset={100-progress} /></svg></div>
+        <p className="intro-loader-eyebrow">WELCOME TO MY CORNER OF THE WEB</p>
+        <h2>Ideas into <span>experiences.</span></h2>
+        <p className="intro-loader-stage" role="status">{stage}</p>
+        <div className="intro-loader-progress" role="progressbar" aria-label="Portfolio introduction" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}><span style={{ width: `${progress}%` }} /></div>
+        <div className="intro-loader-progress-label"><span>{progress === 100 ? "READY WHEN YOU ARE" : "SETTING THE SCENE"}</span><span>{String(progress).padStart(2, "0")}<small> / 100</small></span></div>
       </div>
-    </div>
-    <div className="mt-16 flex flex-col items-center font-['JetBrains_Mono'] text-sm tracking-widest text-cyan-500/80">
-      <div className="mb-2 flex items-center gap-2">
-        <Terminal size={14} className="text-purple-400" />
-        <p>RIRI.DEV_INIT <motion.span animate={{ opacity: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }}>_</motion.span></p>
-      </div>
-      <motion.p 
-        key={terminalText}
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-xs text-slate-500"
-      >
-        {terminalText}
-      </motion.p>
-    </div>
-  </motion.div>
-);
+      <div className="intro-loader-bottom"><span>DEVELOPED WITH INTENTION.</span><button onClick={onSkip}>Skip intro <ArrowRight size={14} /></button></div>
+    </motion.div>
+  );
+};

@@ -32,7 +32,7 @@ export const ExperienceSection = ({ experienceRef }) => {
   return (
     <div ref={experienceRef} className="experience-container min-h-screen flex flex-col justify-center">
       <div className="mb-12 flex items-center gap-6">
-        <h2 className="font-['Space_Grotesk'] text-3xl font-black text-white md:text-4xl">EXPERIENCE</h2>
+        <h2 className="font-display text-3xl font-black text-white md:text-4xl">EXPERIENCE</h2>
         <div className="h-px flex-grow bg-gradient-to-r from-cyan-500/50 via-purple-500/50 to-transparent" />
       </div>
 
@@ -53,20 +53,20 @@ export const ExperienceSection = ({ experienceRef }) => {
                   {exp.icon}
                 </div>
                 <div>
-                  <h3 className="font-['Space_Grotesk'] text-xl font-bold text-white">
+                  <h3 className="font-display text-xl font-bold text-white">
                     {exp.role}
                   </h3>
-                  <span className="font-['JetBrains_Mono'] text-xs text-cyan-400 uppercase tracking-wider">
+                  <span className="font-mono text-xs text-cyan-400 uppercase tracking-wider">
                     {exp.company}
                   </span>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-['JetBrains_Mono'] text-xs text-slate-300 w-fit">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs text-slate-300 w-fit">
                 <Calendar size={14} className="text-purple-400" />
                 {exp.period}
               </div>
             </div>
-            <p className="font-['Outfit'] text-slate-300 leading-relaxed pl-0 md:pl-16">
+            <p className="font-sans text-slate-300 leading-relaxed pl-0 md:pl-16">
               {exp.desc}
             </p>
           </motion.div>
