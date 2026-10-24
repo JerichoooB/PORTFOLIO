@@ -158,7 +158,7 @@ export default function App() {
     { 
       title: "School Management System", 
       desc: "Full-stack school management information system designed to handle student enrollment, records, and administrative database workflows.", 
-      tags: ["PHP", "MySQL", "TailwindCSS"],
+      tags: ["React", "Node.js", "Tailwind CSS", "PostgreSQL"],
       image: "/school-hub.png",
       github: "https://github.com/JerichoooB/school-system"
     },

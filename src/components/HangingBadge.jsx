@@ -4,6 +4,7 @@ import { Fingerprint, ShieldCheck, RotateCcw, MoveHorizontal } from "lucide-reac
 import "../styles/HangingBadge.css";
 
 const REST_LENGTH = 174;
+const MAX_PULL_LENGTH = 260;
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 export function HangingBadge() {
@@ -13,7 +14,7 @@ export function HangingBadge() {
   const visible = useInView(trigger, { amount: 0.7 });
   const reducedMotion = useReducedMotion();
   const patternId = useId().replaceAll(':', '');
-  const physics = useRef({ angle: -0.32, velocity: 0, length: -110, dropVelocity: 0, userMotion: false, dragging: false, previousX: 0, previousTime: 0 });
+  const physics = useRef({ angle: -0.32, velocity: 0, length: -110, dropVelocity: 0, userMotion: false, dragging: false, previousX: 0, previousY: 0, previousTime: 0, pointerId: null });
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotate = useMotionValue(0);
@@ -22,7 +23,7 @@ export function HangingBadge() {
 
   useEffect(() => {
     const p = physics.current;
-    p.dragging = false;
+    if (p.dragging) return;
     if (!visible) return;
     started.current = true;
     Object.assign(p, {
@@ -43,9 +44,10 @@ export function HangingBadge() {
     const dt = duration / steps;
     for (let i = 0; i < steps; i++) {
       if (!reducedMotion || p.userMotion) {
-        p.dropVelocity += ((REST_LENGTH - p.length) * 34 - p.dropVelocity * 7) * dt;
-        p.length += p.dropVelocity * dt;
         if (!p.dragging) {
+          p.dropVelocity += ((REST_LENGTH - p.length) * 44 - p.dropVelocity * 8) * dt;
+          p.length += p.dropVelocity * dt;
+          if (p.length > MAX_PULL_LENGTH) { p.length = MAX_PULL_LENGTH; p.dropVelocity *= -0.25; }
           p.velocity += (-14 * Math.sin(p.angle) - 1.55 * p.velocity) * dt;
           p.angle += p.velocity * dt;
           if (Math.abs(p.angle) > 0.65) { p.angle = clamp(p.angle, -0.65, 0.65); p.velocity *= -0.35; }
@@ -63,15 +65,23 @@ export function HangingBadge() {
 
   const release = (event) => {
     const p = physics.current;
-    if (!p.dragging) return;
+    if (!p.dragging || event.pointerId !== p.pointerId) return;
     p.dragging = false;
-    if (event.type === 'pointercancel' || event.timeStamp - p.previousTime > 100) p.velocity = 0;
+    p.pointerId = null;
+    if (event.type === 'pointercancel' || event.timeStamp - p.previousTime > 100) { p.velocity = 0; p.dropVelocity = 0; }
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
 
   const nudge = (direction = 1) => {
     physics.current.userMotion = true;
     physics.current.velocity += direction * 1.6;
+  };
+
+  const pull = () => {
+    const p = physics.current;
+    p.userMotion = true;
+    p.length = Math.min(p.length + 65, MAX_PULL_LENGTH);
+    p.dropVelocity = 100;
   };
 
   return (
@@ -88,23 +98,30 @@ export function HangingBadge() {
       <motion.div className="badge-suspension" style={{ x, y, rotate, opacity }}>
         <div className="badge-clip" aria-hidden="true"><span /></div>
         <div className="physical-badge" role="group" aria-label="Jericho’s interactive ID badge" tabIndex={0}
-          onKeyDown={event => { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); nudge(event.key === 'ArrowLeft' ? -1 : 1); } }}
+          onKeyDown={event => { if (event.key === 'ArrowDown') { event.preventDefault(); pull(); } if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); nudge(event.key === 'ArrowLeft' ? -1 : 1); } }}
           onPointerDown={event => {
-            if ((event.pointerType === 'mouse' && event.button !== 0)) return;
+            if ((event.pointerType === 'mouse' && event.button !== 0) || physics.current.dragging) return;
             const p = physics.current;
-            p.userMotion = true; p.dragging = true; p.velocity = 0; p.previousX = event.clientX; p.previousTime = event.timeStamp;
+            p.userMotion = true; p.dragging = true; p.pointerId = event.pointerId; p.velocity = 0; p.dropVelocity = 0; p.previousX = event.clientX; p.previousY = event.clientY; p.previousTime = event.timeStamp;
             event.currentTarget.setPointerCapture(event.pointerId);
           }}
           onPointerMove={event => {
             const p = physics.current;
-            if (!p.dragging) return;
+            if (!p.dragging || event.pointerId !== p.pointerId) return;
             const dx = event.clientX - p.previousX;
+            const dy = event.clientY - p.previousY;
             const dt = Math.max((event.timeStamp - p.previousTime) / 1000, 0.008);
             const next = clamp(p.angle + dx / 330, -0.6, 0.6);
             p.velocity = clamp((next - p.angle) / dt, -3, 3);
-            p.angle = next; p.previousX = event.clientX; p.previousTime = event.timeStamp;
+            // Increasing resistance makes the strap feel elastic rather than freely resizable.
+            const extension = Math.max(0, p.length - REST_LENGTH);
+            const resistance = 1 / (1 + extension / 65);
+            const nextLength = clamp(p.length + dy * resistance, 100, MAX_PULL_LENGTH);
+            p.dropVelocity = clamp((nextLength - p.length) / dt, -650, 650);
+            p.length = nextLength;
+            p.angle = next; p.previousX = event.clientX; p.previousY = event.clientY; p.previousTime = event.timeStamp;
           }}
-          onPointerUp={release} onPointerCancel={release} onLostPointerCapture={() => { physics.current.dragging = false; }}>
+          onPointerUp={release} onPointerCancel={release} onLostPointerCapture={event => { const p = physics.current; if (p.dragging && p.pointerId === event.pointerId) { p.dragging = false; p.pointerId = null; p.velocity = 0; p.dropVelocity = 0; } }}>
           <div className="badge-slot" aria-hidden="true" />
           <div className="badge-header"><span>RIRI<span>.DEV</span></span><Fingerprint size={23} /></div>
           <div className="badge-category">DEVELOPER ACCESS PASS <span>NO. 007</span></div>
@@ -115,7 +132,7 @@ export function HangingBadge() {
           <div className="badge-footer"><div className="badge-barcode" aria-hidden="true" /><span>RIRI — 007 — DEV</span></div>
         </div>
       </motion.div>
-      <div className="badge-scene-bottom"><p><MoveHorizontal size={14} /> DRAG & RELEASE · OR USE ← →</p><button onClick={() => nudge()} aria-label="Swing the ID badge"><RotateCcw size={13} /> Give it a swing</button><button onClick={() => {
+      <div className="badge-scene-bottom"><p><MoveHorizontal size={14} /> PULL, SWING & RELEASE · USE ← ↓ →</p><button onClick={pull} aria-label="Pull the ID badge">Pull & release ↓</button><button onClick={() => nudge()} aria-label="Swing the ID badge"><RotateCcw size={13} /> Give it a swing</button><button onClick={() => {
         Object.assign(physics.current, { angle: -0.3, velocity: 0, length: -110, dropVelocity: 0, userMotion: true, dragging: false });
       }} aria-label="Replay ID drop">Replay drop ↓</button></div>
     </div>
