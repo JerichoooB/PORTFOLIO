@@ -188,7 +188,7 @@ export default function App() {
     { 
       title: "SQL Database Tool", 
       desc: "Database query optimization and management scripts focused on relational schema design, secure querying, and data auditing.", 
-      tags: ["SQL", "PostgreSQL", "Database"],
+      tags: ["HTML", "CSS", "SQL", "PostgreSQL", "Database"],
       image: "/sql.png",
       github: "https://github.com/JerichoooB/sql"
     },
