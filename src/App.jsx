@@ -128,12 +128,12 @@ export default function App() {
   useEffect(() => {
     if (!loading) return;
     const started = performance.now();
-    const duration = 3000;
+    const duration = 850;
     let frame;
     const update = (now) => {
       const elapsed = now - started;
       setProgress(Math.min(100, Math.round((elapsed / duration) * 100)));
-      if (elapsed < duration + 200) frame = requestAnimationFrame(update);
+      if (elapsed < duration) frame = requestAnimationFrame(update);
       else {
         setLoading(false);
       }

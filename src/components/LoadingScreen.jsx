@@ -6,7 +6,7 @@ export const LoadingScreen = ({ progress, onSkip }) => {
   const reducedMotion = useReducedMotion();
   const stage = progress < 35 ? "A little code." : progress < 75 ? "A little curiosity." : "A world of possibilities.";
   return (
-    <motion.div key="preloader" initial={{ opacity: 1 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -18 }} transition={{ duration: reducedMotion ? 0.1 : 0.45 }} className="intro-loader">
+    <motion.div key="preloader" initial={{ opacity: 1 }} exit={{ opacity: 0, y: reducedMotion ? 0 : -18 }} transition={{ duration: reducedMotion ? 0.1 : 0.15 }} className="intro-loader">
       <div className="intro-loader-grid" aria-hidden="true" />
       <div className="intro-loader-top"><span>RIRI<span className="intro-mint">.DEV</span></span><span>PERSONAL PORTFOLIO / 2026</span></div>
       <div className="intro-loader-content">
