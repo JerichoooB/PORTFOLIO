@@ -195,7 +195,7 @@ export default function App() {
     { 
       title: "Digibag", 
       desc: "Digital inventory and bag management platform featuring user authentication, item categorization, and structured asset tracking.", 
-      tags: ["React", "Node.js", "MySQL"],
+      tags: ["HTML", "CSS", "PHP", "MySQL"],
       image: "/digibag.png",
       github: "https://github.com/JerichoooB/DIGIBAG"
     },
