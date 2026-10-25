@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
-import { Terminal as TerminalIcon, Binary, Volume2, VolumeX, Menu, X, ArrowRight } from "lucide-react";
+import { Terminal as TerminalIcon, Volume2, VolumeX, Menu, X, ArrowRight } from "lucide-react";
 import { FaReact, FaNodeJs, FaPython, FaPhp, FaJava } from "react-icons/fa";
 import { SiTailwindcss, SiPostgresql, SiMysql } from "react-icons/si";
 
@@ -19,7 +19,7 @@ import "./styles/App.css";
 
 function MatrixRainToggle({ active, onToggle }) {
   return <button type="button" role="switch" aria-checked={active} aria-label="Matrix rain" title={`Turn Matrix rain ${active ? 'off' : 'on'}`} className="matrix-rain-toggle" onClick={onToggle}>
-    <Binary size={15} aria-hidden="true" /><span>Matrix rain</span><span className="matrix-toggle-state" aria-hidden="true">{active ? 'On' : 'Off'}</span><span className="matrix-toggle-track" aria-hidden="true"><span /></span>
+    <span>Matrix rain</span><span className="matrix-toggle-state" aria-hidden="true">{active ? 'On' : 'Off'}</span><span className="matrix-toggle-track" aria-hidden="true"><span /></span>
   </button>;
 }
 
