@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
-import { Terminal as TerminalIcon, Cpu, Volume2, VolumeX, Menu, X, ArrowRight } from "lucide-react";
+import { Terminal as TerminalIcon, Binary, Volume2, VolumeX, Menu, X, ArrowRight } from "lucide-react";
 import { FaReact, FaNodeJs, FaPython, FaPhp, FaJava } from "react-icons/fa";
 import { SiTailwindcss, SiPostgresql, SiMysql } from "react-icons/si";
 
@@ -16,6 +16,12 @@ import { TerminalModal } from "./components/TerminalModal";
 import { playClickSfx, playHoverSfx, setMuted } from "./utils/soundEffects";
 
 import "./styles/App.css";
+
+function MatrixRainToggle({ active, onToggle }) {
+  return <button type="button" role="switch" aria-checked={active} aria-label="Matrix rain" title={`Turn Matrix rain ${active ? 'off' : 'on'}`} className="matrix-rain-toggle" onClick={onToggle}>
+    <Binary size={15} aria-hidden="true" /><span>Matrix rain</span><span className="matrix-toggle-state" aria-hidden="true">{active ? 'On' : 'Off'}</span><span className="matrix-toggle-track" aria-hidden="true"><span /></span>
+  </button>;
+}
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -163,6 +169,13 @@ export default function App() {
       github: "https://github.com/JerichoooB/school-system"
     },
     {
+      title: "Recall — School Reviewer",
+      desc: "A local-first study companion with spaced-repetition flashcards, PDF and PowerPoint quiz generation, and progress tracking. Study data stays in the browser with offline support.",
+      tags: ["React", "Tailwind CSS", "IndexedDB", "PWA"],
+      image: "/school-reviewer.png",
+      github: "https://github.com/JerichoooB/SCHOOL-REVIEWER"
+    },
+    {
       title: "LifeOS — Personal Life",
       desc: "A personal workspace for tasks, diary entries, goals, habits, and budgeting, with calendar planning, local data storage, and offline PWA support.",
       tags: ["React", "Tailwind CSS", "Framer Motion", "PWA"],
@@ -291,19 +304,7 @@ export default function App() {
                 </div>
 
                 <div className="header-actions flex items-center gap-3">
-                  {/* Matrix Rain Toggle Button */}
-                  <button 
-                    onClick={() => { playClickSfx(); setMatrixActive(!matrixActive); }}
-                    onMouseEnter={playHoverSfx}
-                    title="Toggle Matrix Rain" aria-label="Toggle Matrix Rain"
-                    className={`header-effect-button cursor-none p-2.5 rounded-xl border transition-all ${
-                      matrixActive 
-                        ? "border-cyan-400 bg-cyan-400/20 text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.5)]" 
-                        : "border-white/10 bg-white/5 text-slate-400 hover:text-white"
-                    }`}
-                  >
-                    <Cpu size={18} />
-                  </button>
+                  <div className="desktop-matrix-toggle"><MatrixRainToggle active={matrixActive} onToggle={() => { playClickSfx(); setMatrixActive(value => !value); }} /></div>
 
                   {/* Terminal Modal Trigger Button */}
                   <button 
@@ -339,6 +340,7 @@ export default function App() {
               </div>
               {mobileMenuOpen && <nav id="mobile-navigation" className="mobile-navigation" aria-label="Mobile navigation" onKeyDown={event => { if (event.key === 'Escape') { setMobileMenuOpen(false); mobileMenuButton.current?.focus(); } }}>
                 {[["home",homeRef],["about",aboutRef],["projects",projectsRef],["contact",contactRef]].map(([name,ref],index) => <button key={name} aria-current={activeSection === name ? 'page' : undefined} onClick={() => { scrollToSection(ref,name); mobileMenuButton.current?.focus(); }}><span>0{index+1}</span>{name}<ArrowRight size={17} /></button>)}
+                <div className="mobile-effects"><span>Background effect</span><MatrixRainToggle active={matrixActive} onToggle={() => { playClickSfx(); setMatrixActive(value => !value); }} /></div>
                 <p>CODE. CURIOSITY. A LITTLE PERSONALITY.</p>
               </nav>}
             </motion.header>
