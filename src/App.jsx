@@ -166,14 +166,16 @@ export default function App() {
       desc: "Full-stack school management information system designed to handle student enrollment, records, and administrative database workflows.", 
       tags: ["React", "Node.js", "Tailwind CSS", "PostgreSQL"],
       image: "/school-hub.png",
-      github: "https://github.com/JerichoooB/school-system"
+      github: "https://github.com/JerichoooB/school-system",
+      live: "https://schoolhub-ri.vercel.app/"
     },
     {
       title: "Recall — School Reviewer",
       desc: "A local-first study companion with spaced-repetition flashcards, PDF and PowerPoint quiz generation, and progress tracking. Study data stays in the browser with offline support.",
       tags: ["React", "Tailwind CSS", "IndexedDB", "PWA"],
       image: "/school-reviewer.png",
-      github: "https://github.com/JerichoooB/SCHOOL-REVIEWER"
+      github: "https://github.com/JerichoooB/SCHOOL-REVIEWER",
+      live: "https://riri-recall.vercel.app/"
     },
     {
       title: "LifeOS — Personal Life",
@@ -202,7 +204,8 @@ export default function App() {
       desc: "Fashion storefront with a responsive catalog, customer accounts, shopping bag, simulated checkout, and administrator tools for inventory and orders.",
       tags: ["React", "TailwindCSS", "Node.js", "PostgreSQL"],
       image: "/clothing-shop.png",
-      github: "https://github.com/JerichoooB/CLOTHING-SHOP"
+      github: "https://github.com/JerichoooB/CLOTHING-SHOP",
+      live: "https://clovercloth.vercel.app/"
     },
     { 
       title: "Memory Game", 

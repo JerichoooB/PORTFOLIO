@@ -16,7 +16,3 @@
 @media(max-width:1023px) {.hero {gap:30px;}.hero h1 {font-size:47px;}.hero-editor-body {padding:24px 18px;}.hero-editor pre {font-size:10px;}.hero-eyebrow {font-size:8px;letter-spacing:1px;}}
 @media(max-width:767px) {.hero {grid-template-columns:1fr;padding-top:45px;gap:35px;}.hero h1 {font-size:clamp(40px,10vw,62px);letter-spacing:-2px;}.hero-description {font-size:15px;}.hero-eyebrow {margin-bottom:24px;font-size:8px;}.hero-visual {width:100%;max-width:480px;justify-self:center;}.hero-editor pre {font-size:11px;}.hero-scroll>span {display:none;}.hero-security {padding:14px 17px;}.hero-orbit {inset:-15px 0;}}
 @media(prefers-reduced-motion:reduce) {.hero *, .hero *::after {animation:none!important;transition:none!important;}.hero-security {transform:none;}}
-
-@media(min-width:768px) {
-  .hero-editor,.hero-editor:hover,.hero-editor:focus-within {transform:perspective(1100px) rotateY(-8deg) rotateX(2deg) rotateZ(-5deg);}
-}
