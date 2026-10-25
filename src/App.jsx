@@ -128,7 +128,7 @@ export default function App() {
   useEffect(() => {
     if (!loading) return;
     const started = performance.now();
-    const duration = 850;
+    const duration = 1550;
     let frame;
     const update = (now) => {
       const elapsed = now - started;
