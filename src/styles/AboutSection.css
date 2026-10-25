@@ -1,26 +1,17 @@
-.about-container {position:relative;z-index:25;padding:70px 0 55px;font-family:'Outfit',Arial,sans-serif;scroll-margin-top:100px;}
+
+/* AboutSection Specific Styles */
+.about-container {
+  position: relative;
+  z-index: 25;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.about-container {font-family:'Outfit',Arial,sans-serif;}
 .about-container h2,.about-container h3 {font-family:'Space Grotesk',Arial,sans-serif;}
-.about-layout {display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:58px;align-items:center;}
-.about-badge-panel {position:relative;display:flex;justify-content:center;min-width:0;border-radius:20px;background:linear-gradient(180deg,#91e0c504,#91e0c502 65%,transparent);}
-.about-badge-panel::before,.about-badge-panel::after {content:'';position:absolute;top:0;width:28px;height:28px;border-top:1px solid #9adac730;pointer-events:none;}
-.about-badge-panel::before {left:0;border-left:1px solid #9adac730;border-top-left-radius:15px;}.about-badge-panel::after {right:0;border-right:1px solid #9adac730;border-top-right-radius:15px;}
-.about-badge-halo {position:absolute;left:50%;top:260px;width:min(360px,90%);aspect-ratio:1;border:1px solid #91d6bd09;border-radius:50%;transform:translateX(-50%);pointer-events:none;}
-.about-badge-halo::after {content:'';position:absolute;inset:32px;border:1px dashed #91d6bd0a;border-radius:50%;}
-.about-badge-panel .badge-scene-label {top:-23px;left:18px;right:18px;font-size:7px;letter-spacing:1px;}
-/* Keep the anchor, rope and ID together below the decorative panel header. */
-.about-badge-panel .badge-scene {margin-top:42px;}
-.about-information {display:flex;flex-direction:column;gap:22px;min-width:0;}
-.about-bio {position:relative;padding:36px;border:1px solid #ffffff12;border-radius:16px;background:linear-gradient(135deg,#18252d80,#0f192180);overflow:hidden;}
-.about-bio::before {content:'';position:absolute;top:0;left:36px;width:72px;height:1px;background:linear-gradient(90deg,#9ae1c9,transparent);}
-.about-bio-heading {display:flex;align-items:start;gap:17px;margin-bottom:25px;}
-.about-bio-mark {display:grid;place-items:center;flex-shrink:0;width:42px;height:42px;border:1px solid #9adac723;border-radius:10px;background:#9adac707;color:#9edcc7;margin-top:4px;}
-.about-bio h3 {font-size:clamp(26px,2.5vw,34px);font-weight:500;line-height:1.18;letter-spacing:-1.1px;color:#e6f1ec;}
-.about-bio p {font:400 14px/1.95 'Outfit',Arial,sans-serif;color:#a9bbc5;margin:0;}.about-bio p+p {margin-top:18px;color:#8fa5b2;}
-.about-bio-rule {display:flex;gap:4px;margin-top:28px;}.about-bio-rule>span {height:3px;width:28px;border-radius:3px;background:#93cdbb35;}.about-bio-rule>span:first-child {background:#9cddc7;width:46px;}.about-bio-rule>span:last-child {width:14px;background:#93cdbb17;}
-.about-expertise {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-.about-expertise-card {position:relative;display:flex;align-items:center;gap:12px;padding:23px 18px;border:1px solid #ffffff0f;border-radius:12px;background:#111d2666;transition:border-color .25s,background .25s;}
-.about-expertise-card:hover {border-color:#9adac73a;background:#18292e88;}.about-expertise-icon {display:grid;place-items:center;flex-shrink:0;width:34px;height:38px;color:#9bcebc;}.about-expertise-card:nth-child(2) .about-expertise-icon {color:#b1a1c9;}.about-expertise-label {display:block;font:9px 'JetBrains Mono',monospace;color:#7c96a2;margin-bottom:8px;letter-spacing:.4px;}.about-expertise-card strong {display:block;font-size:13px;font-weight:500;color:#cfdedc;line-height:1.4;}.about-expertise-number {position:absolute;right:11px;top:9px;font:7px 'JetBrains Mono',monospace;color:#4a6771;}
-@media(max-width:1100px) and (min-width:1024px) {.about-layout {gap:30px;}.about-bio {padding:28px;}.about-expertise-card {padding:23px 12px;gap:7px;}.about-expertise-card strong {font-size:12px;}}
-@media(max-width:1023px) {.about-layout {grid-template-columns:1fr;gap:24px;}.about-badge-panel {max-width:470px;width:100%;justify-self:center;}.about-information {max-width:760px;justify-self:center;width:100%;}}
-@media(max-width:600px) {.about-container {padding:45px 0 35px;}.about-layout {gap:20px;}.about-bio {padding:25px;}.about-bio-heading {gap:12px;margin-bottom:22px;}.about-bio-mark {width:33px;height:35px;}.about-bio h3 {font-size:28px;}.about-bio p {font-size:14px;line-height:1.9;}.about-expertise {gap:10px;}.about-expertise-card {flex-direction:column;align-items:start;padding:18px 15px;gap:10px;}.about-expertise-card strong {font-size:12px;}.about-expertise-label {font-size:8px;}.about-expertise-icon {justify-content:start;height:26px;width:26px;}}
-@media(prefers-reduced-motion:reduce) {.about-expertise-card {transition:none;}}
+.about-container p {font-family:'Outfit',Arial,sans-serif;}
+.about-container {padding-top:70px;padding-bottom:55px;}
+.about-container>.grid>.lg\:col-span-7>div {box-shadow:none;background:#111b2599;border-color:#ffffff14;}
+.about-container .grid.grid-cols-1.sm\:grid-cols-2>div {box-shadow:none;background:#111b2555;}
+.about-container .lg\:col-span-7>div>h3 {font-size:25px;font-weight:500;line-height:1.3;}
+.about-container .lg\:col-span-7>div>p {color:#a7b7c2;font-size:15px;line-height:1.9;}
+@media(max-width:600px) {.about-container {padding-top:45px;padding-bottom:35px;}.about-container .lg\:col-span-7>div {padding:24px;}}

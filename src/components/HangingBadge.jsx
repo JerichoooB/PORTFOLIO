@@ -1,6 +1,6 @@
 import { useEffect, useRef, useId } from "react";
 import { motion, useAnimationFrame, useInView, useMotionValue, useReducedMotion } from "framer-motion";
-import { Fingerprint, ShieldCheck, MoveHorizontal } from "lucide-react";
+import { Fingerprint, ShieldCheck, RotateCcw, MoveHorizontal } from "lucide-react";
 import "../styles/HangingBadge.css";
 
 const REST_LENGTH = 174;
@@ -132,7 +132,9 @@ export function HangingBadge() {
           <div className="badge-footer"><div className="badge-barcode" aria-hidden="true" /><span>RIRI — 007 — DEV</span></div>
         </div>
       </motion.div>
-      <div className="badge-scene-bottom"><p><MoveHorizontal size={14} /> PULL, SWING & RELEASE · USE ← ↓ →</p></div>
+      <div className="badge-scene-bottom"><p><MoveHorizontal size={14} /> PULL, SWING & RELEASE · USE ← ↓ →</p><button onClick={pull} aria-label="Pull the ID badge">Pull & release ↓</button><button onClick={() => nudge()} aria-label="Swing the ID badge"><RotateCcw size={13} /> Give it a swing</button><button onClick={() => {
+        Object.assign(physics.current, { angle: -0.3, velocity: 0, length: -110, dropVelocity: 0, userMotion: true, dragging: false });
+      }} aria-label="Replay ID drop">Replay drop ↓</button></div>
     </div>
   );
 }

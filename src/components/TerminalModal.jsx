@@ -57,7 +57,7 @@ export const TerminalModal = ({ isOpen, onClose, scrollToSection, refs }) => {
       case "projects":
         newHistory.push({
           type: "output",
-          text: "PROJECTS:\n1. Portfolio 1.0\n2. School Management System\n3. SQL Database Tool\n4. Digibag\n5. Clover Clothing Shop\n6. Memory Game\n7. Recall — School Reviewer\n8. LifeOS — Personal Life — https://ririsos.vercel.app/",
+          text: "PROJECTS:\n1. Portfolio 1.0\n2. School Management System\n3. SQL Database Tool\n4. Digibag\n5. Clover Clothing Shop\n6. Memory Game",
         });
         break;
       case "contact":
