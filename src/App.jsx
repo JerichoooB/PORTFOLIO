@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
-import { Terminal as TerminalIcon, Cpu, Volume2, VolumeX, Menu, X, ArrowRight } from "lucide-react";
+import { Terminal as TerminalIcon, Binary, Volume2, VolumeX, Menu, X, ArrowRight } from "lucide-react";
 import { FaReact, FaNodeJs, FaPython, FaPhp, FaJava } from "react-icons/fa";
 import { SiTailwindcss, SiPostgresql, SiMysql } from "react-icons/si";
 
@@ -17,6 +17,12 @@ import { playClickSfx, playHoverSfx, setMuted } from "./utils/soundEffects";
 
 import "./styles/App.css";
 
+function MatrixRainToggle({ active, onToggle }) {
+  return <button type="button" role="switch" aria-checked={active} aria-label="Matrix rain" title={`Turn Matrix rain ${active ? 'off' : 'on'}`} className="matrix-rain-toggle" onClick={onToggle}>
+    <Binary size={15} aria-hidden="true" /><span>Matrix rain</span><span className="matrix-toggle-state" aria-hidden="true">{active ? 'On' : 'Off'}</span><span className="matrix-toggle-track" aria-hidden="true"><span /></span>
+  </button>;
+}
+
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(loading ? 0 : 100);
@@ -24,7 +30,15 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuButton = useRef(null);
   const [activeSection, setActiveSection] = useState("home");
-  const [matrixActive, setMatrixActive] = useState(false);
+  const [matrixActive, setMatrixActive] = useState(() => {
+    try { const saved = localStorage.getItem("riri-matrix-rain"); return saved === null ? true : saved === "on"; } catch { return true; }
+  });
+  const toggleMatrixRain = () => {
+    const next = !matrixActive;
+    setMatrixActive(next);
+    try { localStorage.setItem("riri-matrix-rain", next ? "on" : "off"); } catch { /* Keep this page's preference when storage is unavailable. */ }
+    playClickSfx();
+  };
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
@@ -122,12 +136,12 @@ export default function App() {
   useEffect(() => {
     if (!loading) return;
     const started = performance.now();
-    const duration = 3000;
+    const duration = 850;
     let frame;
     const update = (now) => {
       const elapsed = now - started;
       setProgress(Math.min(100, Math.round((elapsed / duration) * 100)));
-      if (elapsed < duration + 200) frame = requestAnimationFrame(update);
+      if (elapsed < duration) frame = requestAnimationFrame(update);
       else {
         setLoading(false);
       }
@@ -298,19 +312,7 @@ export default function App() {
                 </div>
 
                 <div className="header-actions flex items-center gap-3">
-                  {/* Matrix Rain Toggle Button */}
-                  <button 
-                    onClick={() => { playClickSfx(); setMatrixActive(!matrixActive); }}
-                    onMouseEnter={playHoverSfx}
-                    title="Toggle Matrix Rain" aria-label="Toggle Matrix Rain"
-                    className={`header-effect-button cursor-none p-2.5 rounded-xl border transition-all ${
-                      matrixActive 
-                        ? "border-cyan-400 bg-cyan-400/20 text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.5)]" 
-                        : "border-white/10 bg-white/5 text-slate-400 hover:text-white"
-                    }`}
-                  >
-                    <Cpu size={18} />
-                  </button>
+                  <div className="desktop-matrix-toggle"><MatrixRainToggle active={matrixActive} onToggle={toggleMatrixRain} /></div>
 
                   {/* Terminal Modal Trigger Button */}
                   <button 
@@ -346,6 +348,7 @@ export default function App() {
               </div>
               {mobileMenuOpen && <nav id="mobile-navigation" className="mobile-navigation" aria-label="Mobile navigation" onKeyDown={event => { if (event.key === 'Escape') { setMobileMenuOpen(false); mobileMenuButton.current?.focus(); } }}>
                 {[["home",homeRef],["about",aboutRef],["projects",projectsRef],["contact",contactRef]].map(([name,ref],index) => <button key={name} aria-current={activeSection === name ? 'page' : undefined} onClick={() => { scrollToSection(ref,name); mobileMenuButton.current?.focus(); }}><span>0{index+1}</span>{name}<ArrowRight size={17} /></button>)}
+                <div className="mobile-effects"><span>Background effect</span><MatrixRainToggle active={matrixActive} onToggle={toggleMatrixRain} /></div>
                 <p>CODE. CURIOSITY. A LITTLE PERSONALITY.</p>
               </nav>}
             </motion.header>

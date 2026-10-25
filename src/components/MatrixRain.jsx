@@ -1,58 +1,54 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export const MatrixRain = () => {
   const canvasRef = useRef(null);
-
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-
-    let animationFrameId;
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener("resize", handleResize);
-
-    const chars = "0101010101RIRIDEVSECUREABCDEF0123456789";
+    if (!ctx) return;
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const chars = '010101RIRIDEVABCDEF';
     const fontSize = 16;
-    const columns = Math.floor(width / fontSize);
-    const drops = Array(columns).fill(1);
-
-    const draw = () => {
-      ctx.fillStyle = "rgba(7, 9, 14, 0.1)";
+    let frame, lastFrame = 0, width, height, drops = [];
+    const paint = (staticImage = false) => {
+      // Fade existing glyphs without covering the background grid with black.
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.fillStyle = 'rgba(0,0,0,0.11)';
       ctx.fillRect(0, 0, width, height);
-
-      ctx.fillStyle = "#00f0ff";
-      ctx.font = `\${fontSize}px monospace`;
-
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#91d9be';
+      ctx.font = `${fontSize}px monospace`;
       for (let i = 0; i < drops.length; i++) {
-        const text = chars.charAt(Math.floor(Math.random() * chars.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > height && Math.random() > 0.975) {
-          drops[i] = 0;
+        for (let row = 0; row < (staticImage ? 7 : 1); row++) {
+          ctx.globalAlpha = staticImage ? (7 - row) / 7 : 1;
+          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, (drops[i] - row) * fontSize);
         }
+        if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = -Math.random() * 20;
         drops[i]++;
       }
-      animationFrameId = requestAnimationFrame(draw);
+      ctx.globalAlpha = 1;
     };
-
-    draw();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      cancelAnimationFrame(animationFrameId);
+    const resize = () => {
+      width = window.innerWidth; height = window.innerHeight;
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width = width * ratio; canvas.height = height * ratio;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      drops = Array.from({ length: Math.ceil(width / fontSize) }, () => Math.random() * height / fontSize);
+      paint(true);
     };
+    const animate = time => {
+      if (time - lastFrame > 1000 / 25) { paint(); lastFrame = time; }
+      frame = requestAnimationFrame(animate);
+    };
+    const syncPlayback = () => {
+      cancelAnimationFrame(frame);
+      if (!preference.matches && !document.hidden) frame = requestAnimationFrame(animate);
+    };
+    resize(); syncPlayback();
+    window.addEventListener('resize', resize);
+    preference.addEventListener('change', syncPlayback);
+    document.addEventListener('visibilitychange', syncPlayback);
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('resize', resize); preference.removeEventListener('change', syncPlayback); document.removeEventListener('visibilitychange', syncPlayback); };
   }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-10 opacity-30"
-    />
-  );
+  return <canvas ref={canvasRef} data-matrix-rain aria-hidden="true" className="matrix-rain-canvas" />;
 };

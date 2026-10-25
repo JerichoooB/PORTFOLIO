@@ -24,7 +24,7 @@
 
 /* Layered carousel: retain the original cards while changing how they move. */
 .project-carousel {position:relative;margin-top:25px;}
-.project-carousel-stage {--carousel-card-width:min(390px,78%);position:relative;min-height:665px;perspective:1400px;isolation:isolate;touch-action:pan-y;}
+.project-carousel-stage {--carousel-card-width:min(340px,78%);position:relative;min-height:610px;perspective:1400px;isolation:isolate;touch-action:pan-y;}
 .project-carousel-stage .carousel-card {position:absolute;left:50%;top:40px;width:var(--carousel-card-width);margin-left:calc(var(--carousel-card-width) / -2);transform-origin:50% 50%;background:#101923;box-shadow:0 20px 45px #0005;}
 .carousel-card[data-active="true"] {border-color:#9adac757;box-shadow:0 24px 60px #0007,0 0 35px #9adac70a;}
 .carousel-card-content>.project-browser {margin:15px 15px 0;}
@@ -44,5 +44,9 @@
 .carousel-hint {text-align:center;font-size:11px;color:#6f8792;margin-top:10px;}
 .carousel-card[data-active="false"] .project-image::after {animation:none!important;}
 .carousel-card[data-active="false"]:hover .project-image img {transform:none;}
-@media(max-width:600px) {.project-carousel-stage {min-height:660px;--carousel-card-width:82%;}.project-carousel-stage .carousel-card {top:30px;}.carousel-card .project-card-copy {padding:20px;}.carousel-card .project-card-title h3 {font-size:18px;}.carousel-card .project-card-copy>p {min-height:100px;}.carousel-card .project-tags {min-height:50px;margin-bottom:0;}.carousel-card .project-card-actions {flex-wrap:wrap;}.project-carousel-controls {gap:8px;}.carousel-dots>button {width:23px;}.carousel-status {font-size:9px;}}
+@media(max-width:600px) {.project-carousel-stage {min-height:640px;--carousel-card-width:78%;}.project-carousel-stage .carousel-card {top:30px;}.carousel-card .project-card-copy {padding:20px;}.carousel-card .project-card-title h3 {font-size:18px;}.carousel-card .project-card-copy>p {min-height:100px;}.carousel-card .project-tags {min-height:50px;margin-bottom:0;}.carousel-card .project-card-actions {flex-wrap:wrap;}.project-carousel-controls {gap:8px;}.carousel-dots>button {width:23px;}.carousel-status {font-size:9px;}}
 @media(prefers-reduced-motion:reduce) {.carousel-dots>button>span,.carousel-arrow {transition:none;}}
+
+.carousel-card .project-card-copy {padding:20px;}
+.carousel-card .project-card-title h3 {font-size:18px;}
+.carousel-card .project-card-copy>p {min-height:100px;}
