@@ -6,19 +6,19 @@ import { ProjectPlaygroundModal } from "./ProjectPlaygroundModal";
 import "../styles/ProjectsSection.css";
 
 function ProjectImage({ project }) {
-  return <div className="project-browser"><div className="project-browser-bar"><span aria-hidden="true"><i /><i /><i /></span><span>{project.title === 'Clover Clothing Shop' ? 'clover / storefront' : project.title.toLowerCase()}</span><ArrowUpRight size={13} /></div><div className="project-image"><img src={project.image} alt={`${project.title} website preview`} loading="lazy" /></div></div>;
+  return <div className="project-browser"><div className="project-browser-bar"><span aria-hidden="true"><i /><i /><i /></span><span>{project.title === 'LifeOS — Personal Life' ? 'lifeos / personal workspace' : project.title === 'Clover Clothing Shop' ? 'clover / storefront' : project.title.toLowerCase()}</span><ArrowUpRight size={13} /></div><div className="project-image"><img src={project.image} alt={`${project.title} website preview`} loading="lazy" /></div></div>;
 }
 
 export const ProjectsSection = ({ projectsRef, projects }) => {
   const [selectedProject, setSelectedProject] = useState(null);
-  const featured = projects.find(project => project.title === 'Clover Clothing Shop');
+  const featured = projects.find(project => project.title === 'LifeOS — Personal Life');
   const others = projects.filter(project => project !== featured);
   return (
     <section ref={projectsRef} id="projects" className="projects-container" aria-labelledby="projects-heading">
       <div className="section-heading"><div><p className="section-kicker">02 / SELECTED WORK</p><h2 id="projects-heading">Ideas, made real.</h2></div><p>A few things I’ve built.<br />Each one, a new thing learned.</p></div>
       {featured && <article className="featured-project">
         <ProjectImage project={featured} />
-        <div className="featured-project-copy"><p className="project-overline"><span /> FEATURED PROJECT</p><h3>Clover<span>Clothing Shop</span></h3><p>{featured.desc}</p><div className="project-tags">{featured.tags.map(tag => <span key={tag}>{tag}</span>)}</div><div className="featured-details"><span>01 / SHOPPING EXPERIENCE</span><p>Considered layouts. Everyday essentials.</p></div><a className="project-source featured-source" href={featured.github} target="_blank" rel="noopener noreferrer"><FaGithub size={16} /> Explore the source <ArrowUpRight size={17} /></a></div>
+        <div className="featured-project-copy"><p className="project-overline"><span /> FEATURED PROJECT</p><h3>LifeOS<span>Personal Life</span></h3><p>{featured.desc}</p><div className="project-tags">{featured.tags.map(tag => <span key={tag}>{tag}</span>)}</div><div className="featured-details"><span>01 / PERSONAL WORKSPACE</span><p>Your life, a little more organized.</p></div><div className="flex flex-wrap items-center gap-x-5"><a className="project-source featured-source" href={featured.live} target="_blank" rel="noopener noreferrer"><Globe2 size={16} /> Visit LifeOS <ArrowUpRight size={17} /></a><a className="project-source mt-5" href={featured.github} target="_blank" rel="noopener noreferrer"><FaGithub size={16} /> Source code <ArrowUpRight size={17} /></a></div></div>
       </article>}
       <div className="projects-grid">{others.map((project, index) => <motion.article className="project-card" key={project.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.12 }} transition={{ duration: 0.4 }}>
         <ProjectImage project={project} />
