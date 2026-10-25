@@ -162,6 +162,14 @@ export default function App() {
       image: "/school-hub.png",
       github: "https://github.com/JerichoooB/school-system"
     },
+    {
+      title: "LifeOS — Personal Life",
+      desc: "A personal workspace for tasks, diary entries, goals, habits, and budgeting, with calendar planning, local data storage, and offline PWA support.",
+      tags: ["React", "Tailwind CSS", "Framer Motion", "PWA"],
+      image: "/personal-life.png",
+      github: "https://github.com/JerichoooB/MY-PERSONAL-LIFE-WESBSITE",
+      live: "https://ririsos.vercel.app/"
+    },
     { 
       title: "SQL Database Tool", 
       desc: "Database query optimization and management scripts focused on relational schema design, secure querying, and data auditing.", 
