@@ -224,6 +224,13 @@ export default function App() {
       github: "https://github.com/JerichoooB/WEATHER-APP",
       live: "https://weatherapp-ri.vercel.app/"
     },
+    {
+      title: "Cyber Sec",
+      desc: "Explore my cybersecurity web project.",
+      tags: [],
+      github: "https://github.com/JerichoooB/Cyber-Sec",
+      live: "https://cyber-sec-eight.vercel.app/"
+    },
     { 
       title: "Memory Game", 
       desc: "Interactive web-based memory matching game built with state management, move counters, and engaging UI feedback.", 
