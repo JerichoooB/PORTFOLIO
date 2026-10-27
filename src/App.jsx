@@ -190,7 +190,8 @@ export default function App() {
       desc: "Database query optimization and management scripts focused on relational schema design, secure querying, and data auditing.", 
       tags: ["HTML", "CSS", "SQL", "PostgreSQL", "Database"],
       image: "/sql.png",
-      github: "https://github.com/JerichoooB/sql"
+      github: "https://github.com/JerichoooB/sql",
+      live: "https://sql-navy-three.vercel.app/"
     },
     { 
       title: "Digibag", 
