@@ -207,6 +207,22 @@ export default function App() {
       github: "https://github.com/JerichoooB/CLOTHING-SHOP",
       live: "https://clovercloth.vercel.app/"
     },
+    {
+      title: "Brew Haven — Coffee Shop",
+      desc: "A coffee shop storefront with a browsable menu, customer accounts, saved carts, pickup and dine-in ordering, and an admin dashboard for products and orders.",
+      tags: ["React", "Tailwind CSS", "Express", "PostgreSQL"],
+      image: "/coffee-shop.png",
+      github: "https://github.com/JerichoooB/COFFEE-SHOP",
+      live: "https://ririscoffeeshop.vercel.app/"
+    },
+    {
+      title: "SkyCast — Weather App",
+      desc: "A responsive weather dashboard with live conditions, hourly and seven-day forecasts, worldwide city search, favorite locations, and an interactive map.",
+      tags: ["React", "Tailwind CSS", "Open-Meteo", "Leaflet"],
+      image: "/weather-app.png",
+      github: "https://github.com/JerichoooB/WEATHER-APP",
+      live: "https://weatherapp-ri.vercel.app/"
+    },
     { 
       title: "Memory Game", 
       desc: "Interactive web-based memory matching game built with state management, move counters, and engaging UI feedback.", 
