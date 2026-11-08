@@ -89,3 +89,8 @@ html {
 @media(prefers-reduced-motion:reduce) {.matrix-rain-toggle,.matrix-toggle-track,.matrix-toggle-track>span {transition:none;}}
 
 @media(max-width:1023px) {.site-header>div:first-child>div:nth-child(2) {display:none;}}
+
+.mobile-navigation {overflow:hidden;}
+.hero-actions button {transition:transform .35s cubic-bezier(.22,1,.36,1),background-color .25s;}
+.site-shell input,.site-shell textarea {transition:border-color .25s,background-color .25s;}
+@media(prefers-reduced-motion:reduce) {.hero-actions button,.site-shell input,.site-shell textarea {transition:none;}}

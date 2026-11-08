@@ -1,5 +1,4 @@
-import React from "react";
-import { motion } from "framer-motion";
+import { Reveal } from "./Reveal";
 import { ShieldCheck, Terminal, Cpu, Database } from "lucide-react";
 import "../styles/AboutSection.css";
 import { HangingBadge } from "./HangingBadge";
@@ -14,7 +13,7 @@ export const AboutSection = ({ aboutRef }) => {
 
   return (
     <div ref={aboutRef} className="about-container flex flex-col justify-center">
-      <div className="section-heading"><div><p className="section-kicker">01 / A LITTLE ABOUT ME</p><h2>The person behind the code.</h2></div><p>Developer by practice.<br />Curious by nature.</p></div>
+      <Reveal className="section-heading"><div><p className="section-kicker">01 / A LITTLE ABOUT ME</p><h2>The person behind the code.</h2></div><p>Developer by practice.<br />Curious by nature.</p></Reveal>
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 items-center">
         
@@ -24,11 +23,7 @@ export const AboutSection = ({ aboutRef }) => {
 
         {/* Bio & Details Column */}
         <div className="lg:col-span-7 flex flex-col gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <Reveal
             className="rounded-2xl border border-white/10 bg-slate-900/60 p-8 backdrop-blur-xl relative overflow-hidden group shadow-[0_0_30px_rgba(0,0,0,0.5)]"
           >
             <h3 className="mb-4 font-display text-2xl font-bold text-white tracking-tight">
@@ -40,18 +35,12 @@ export const AboutSection = ({ aboutRef }) => {
             <p className="font-sans text-slate-400 leading-relaxed">
 I also have a growing interest in cybersecurity, where I explore penetration testing, email security, and database protection to better understand how applications can be made safer and more reliable.
             </p>
-          </motion.div>
+          </Reveal>
 
           {/* Stats / Metrics Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -4, borderColor: "rgba(0, 240, 255, 0.5)" }}
+              <Reveal key={stat.label} delay={index * 0.065} lift
                 className="rounded-xl border border-white/10 bg-slate-900/40 p-5 backdrop-blur-md flex flex-col justify-between transition-colors shadow-lg"
               >
                 <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5">
@@ -65,7 +54,7 @@ I also have a growing interest in cybersecurity, where I explore penetration tes
                     {stat.value}
                   </span>
                 </div>
-              </motion.div>
+              </Reveal>
             ))}
           </div>
         </div>

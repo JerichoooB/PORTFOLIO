@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Mail, Send, MessageSquare, CheckCircle2, AlertCircle } from "lucide-react";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import "../styles/ContactSection.css";
+import { Reveal } from "./Reveal";
 
 export const ContactSection = ({ contactRef }) => {
   const [submitted, setSubmitted] = useState(false);
@@ -43,11 +44,11 @@ export const ContactSection = ({ contactRef }) => {
 
   return (
     <div ref={contactRef} className="contact-container flex flex-col justify-center">
-      <div className="section-heading"><div><p className="section-kicker">03 / GET IN TOUCH</p><h2>Let’s build something thoughtful.</h2></div></div>
+      <Reveal className="section-heading"><div><p className="section-kicker">03 / GET IN TOUCH</p><h2>Let’s build something thoughtful.</h2></div></Reveal>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         {/* Info Column */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
+        <Reveal className="lg:col-span-5 flex flex-col gap-6">
           <div className="rounded-2xl border border-white/10 bg-slate-900/65 p-8 backdrop-blur-xl relative overflow-hidden shadow-[0_0_30px_rgba(0,0,0,0.5)]">
             <h3 className="font-display text-2xl font-bold text-white mb-4">
               Good things start with a conversation.
@@ -75,14 +76,10 @@ export const ContactSection = ({ contactRef }) => {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Form Column */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <Reveal delay={0.08}
           className="lg:col-span-7 rounded-2xl border border-cyan-500/30 bg-slate-950/80 p-8 backdrop-blur-2xl shadow-[0_0_40px_rgba(0,240,255,0.15)] relative overflow-hidden"
         >
           {submitted ? (
@@ -150,7 +147,7 @@ export const ContactSection = ({ contactRef }) => {
               </motion.button>
             </form>
           )}
-        </motion.div>
+        </Reveal>
       </div>
     </div>
   );

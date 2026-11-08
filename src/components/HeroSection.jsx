@@ -6,7 +6,7 @@ export function HeroSection({ skills, onProjects, onContact, onTerminal }) {
   const reducedMotion = useReducedMotion();
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <motion.div className="hero-copy" initial={reducedMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+      <motion.div className="hero-copy" initial={reducedMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
         <p className="hero-eyebrow"><span /> THE INTERSECTION OF CODE & CURIOSITY</p>
         <p className="hero-intro">Hey, I’m Jericho <span>— aka Riri.</span></p>
         <h1 id="hero-title">Thoughtful code.<br /><span>Stronger digital<br />experiences.</span></h1>
@@ -17,7 +17,7 @@ export function HeroSection({ skills, onProjects, onContact, onTerminal }) {
         </div>
         <div className="hero-stack"><span className="hero-stack-label">MY TOOLKIT</span><div>{skills.map(skill => <span className="hero-tech" key={skill.name}>{skill.icon}{skill.name}</span>)}</div></div>
       </motion.div>
-      <motion.div className="hero-visual" initial={reducedMotion ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.15 }}>
+      <motion.div className="hero-visual" initial={reducedMotion ? false : { opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}>
         <div className="hero-orbit" aria-hidden="true" />
         <div className="hero-editor">
           <div className="hero-editor-bar"><span className="hero-window-dots" aria-hidden="true"><i /><i /><i /></span><span>developer.js</span><Code2 size={15} /></div>

@@ -13,3 +13,13 @@
 .project-cover {height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:radial-gradient(ellipse at 50% 20%,#9adac71c,transparent 75%),#0e1a23;color:#9adac7;}
 .project-cover strong {font:500 30px 'Space Grotesk',Arial,sans-serif;letter-spacing:-1px;color:#e1f1eb;}
 .project-cover>span {font:8px 'JetBrains Mono',monospace;letter-spacing:2px;color:#8bafa4;}
+
+/* Restrained motion without changing the project layout. */
+.project-card,.featured-project {transition:border-color .3s,box-shadow .3s;}
+.project-card:hover,.project-card:focus-within,.featured-project:hover,.featured-project:focus-within {border-color:#9adac75c;box-shadow:0 16px 36px #0004;}
+.project-image img {transition:transform .75s cubic-bezier(.22,1,.36,1);}
+.project-source,.project-demo {transition:color .25s,background-color .25s;}
+.project-source>svg:last-child {transition:transform .3s cubic-bezier(.22,1,.36,1);}
+.project-source:hover>svg:last-child,.project-source:focus-visible>svg:last-child {transform:translate(2px,-2px);}
+@media(hover:none) {.project-card:hover .project-image img,.featured-project:hover .project-image img {transform:none;}}
+@media(prefers-reduced-motion:reduce) {.project-card,.featured-project,.project-image img,.project-source,.project-demo,.project-source>svg:last-child {transition:none;}.project-source:hover>svg:last-child,.project-source:focus-visible>svg:last-child {transform:none;}}

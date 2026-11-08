@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, MotionConfig } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "framer-motion";
 import { Terminal as TerminalIcon, Volume2, VolumeX, Menu, X, ArrowRight } from "lucide-react";
 import { FaReact, FaNodeJs, FaPython, FaPhp, FaJava } from "react-icons/fa";
 import { SiTailwindcss, SiPostgresql, SiMysql } from "react-icons/si";
@@ -24,6 +24,7 @@ function MatrixRainToggle({ active, onToggle }) {
 }
 
 export default function App() {
+  const reducedMotion = useReducedMotion();
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(loading ? 0 : 100);
 
@@ -59,41 +60,20 @@ export default function App() {
     playClickSfx();
   };
 
-  const smoothScrollTo = (targetPosition, duration = 800) => {
-    const startPosition = window.pageYOffset;
-    const distance = targetPosition - startPosition;
-    let startTime = null;
-
-    const animation = (currentTime) => {
-      if (startTime === null) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
-      window.scrollTo(0, run);
-      if (timeElapsed < duration) {
-        requestAnimationFrame(animation);
-      }
-    };
-
-    const easeInOutQuad = (t, b, c, d) => {
-      t /= d / 2;
-      if (t < 1) return (c / 2) * t * t + b;
-      t--;
-      return (-c / 2) * (t * (t - 2) - 1) + b;
-    };
-
-    requestAnimationFrame(animation);
+  const smoothScrollTo = targetPosition => {
+    window.scrollTo({ top: Math.max(0, targetPosition), behavior: reducedMotion ? 'instant' : 'smooth' });
   };
 
   const scrollToSection = (ref, sectionName) => {
     setMobileMenuOpen(false);
     playClickSfx();
     if (sectionName === "home") {
-      smoothScrollTo(0, 800);
+      smoothScrollTo(0);
     } else if (ref.current) {
       const headerOffset = 90;
       const elementPosition = ref.current.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      smoothScrollTo(offsetPosition, 800);
+      smoothScrollTo(offsetPosition);
     }
     setActiveSection(sectionName);
   };
@@ -365,11 +345,13 @@ export default function App() {
                   <button ref={mobileMenuButton} className="mobile-menu-toggle" aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"} aria-expanded={mobileMenuOpen} aria-controls="mobile-navigation" onClick={() => setMobileMenuOpen(open => !open)}>{mobileMenuOpen ? <X size={21} /> : <Menu size={21} />}</button>
                 </div>
               </div>
-              {mobileMenuOpen && <nav id="mobile-navigation" className="mobile-navigation" aria-label="Mobile navigation" onKeyDown={event => { if (event.key === 'Escape') { setMobileMenuOpen(false); mobileMenuButton.current?.focus(); } }}>
+              <AnimatePresence initial={false}>
+              {mobileMenuOpen && <motion.nav initial={reducedMotion ? false : { height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: reducedMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }} id="mobile-navigation" className="mobile-navigation" aria-label="Mobile navigation" onKeyDown={event => { if (event.key === 'Escape') { setMobileMenuOpen(false); mobileMenuButton.current?.focus(); } }}>
                 {[["home",homeRef],["about",aboutRef],["projects",projectsRef],["contact",contactRef]].map(([name,ref],index) => <button key={name} aria-current={activeSection === name ? 'page' : undefined} onClick={() => { scrollToSection(ref,name); mobileMenuButton.current?.focus(); }}><span>0{index+1}</span>{name}<ArrowRight size={17} /></button>)}
                 <div className="mobile-effects"><span>Background effect</span><MatrixRainToggle active={matrixActive} onToggle={() => { playClickSfx(); setMatrixActive(value => !value); }} /></div>
                 <p>CODE. CURIOSITY. A LITTLE PERSONALITY.</p>
-              </nav>}
+              </motion.nav>}
+              </AnimatePresence>
             </motion.header>
 
             {/* Main Content Area */}
